@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties("labrador.crypto")
+@ConfigurationProperties("mms.crypto")
 @Data
 public class CryptoProperties {
     private RSAProperties rsa = new RSAProperties();
