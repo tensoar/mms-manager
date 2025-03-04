@@ -1,5 +1,6 @@
 package ink.labrador.mmsmanager.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -10,18 +11,19 @@ import java.util.function.Function;
 
 public interface BaseService<E, M extends BaseMapper<E>> extends IService<E> {
     M getBaseMapper();
-    E getOne(E e);
-    E getOne(E e, boolean throwEx);
-    Map<String, Object> getMap(E e);
-    <V> V getObj(E e, Function<? super Object, V> mapper);
-    long count(E e);
-    List<Object> listObjs(E e);
-    <V> List<V> listObjs(E e, Function<? super Object, V> mapper);
-    <P extends IPage<E>> P page(P page, E e);
-    List<Map<String, Object>> listMaps(E e);
-    List<E> list(E e);
+    E getOne(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
+    E getOne(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb, boolean throwEx);
+    Map<String, Object> getMap(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
+    <V> V getObj(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb, Function<? super Object, V> mapper);
+    long count(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
+//    List<Object> listObjs(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
+    <V> List<V> listObjs(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb, Function<? super Object, V> mapper);
+    <P extends IPage<E>> P page(P page, Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
+    List<Map<String, Object>> listMaps(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
+    List<E> list(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
 //    boolean saveOrUpdate(E entity, E values);
-    boolean remove(E e);
-    boolean update(E e);
-    boolean update(E e, E toUpdate);
+    boolean remove(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
+    boolean update(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
+    boolean update(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb, E toUpdate);
+    LambdaQueryWrapper<E> newWrapper();
 }

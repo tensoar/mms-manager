@@ -1,6 +1,8 @@
 package ink.labrador.mmsmanager.support;
 
-public interface BaseEnum<T> {
+import java.io.Serializable;
+
+public interface BaseEnum<T> extends Serializable {
     T getValue();
     String getDescription();
 }

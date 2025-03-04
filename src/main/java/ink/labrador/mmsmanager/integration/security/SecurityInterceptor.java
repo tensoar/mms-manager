@@ -2,11 +2,10 @@ package ink.labrador.mmsmanager.integration.security;
 
 import ink.labrador.mmsmanager.constant.UserStatus;
 import ink.labrador.mmsmanager.domain.LoggedUser;
-import ink.labrador.mmsmanager.entity.User;
-import ink.labrador.mmsmanager.integration.R;
+import ink.labrador.mmsmanager.entity.SysUser;
 import ink.labrador.mmsmanager.integration.annotation.NotAuth;
 import ink.labrador.mmsmanager.integration.exception.BusinessException;
-import ink.labrador.mmsmanager.mapper.UserMapper;
+import ink.labrador.mmsmanager.mapper.SysUserMapper;
 import ink.labrador.mmsmanager.properties.SecurityProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +21,7 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 public class SecurityInterceptor implements AsyncHandlerInterceptor, Ordered {
 
     private final SecurityProperties securityProperties;
-    private final UserMapper userMapper;
+    private final SysUserMapper sysUserMapper;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -41,7 +40,7 @@ public class SecurityInterceptor implements AsyncHandlerInterceptor, Ordered {
         if (user == null) {
             throw new BusinessException("Token非法或认证过期");
         }
-        User dbUser = userMapper.selectById(user.getUserId());
+        SysUser dbUser = sysUserMapper.selectById(user.getUserId());
         if (dbUser == null) {
             throw new BusinessException("用户不存在");
         }

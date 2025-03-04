@@ -1,20 +1,22 @@
 package ink.labrador.mmsmanager.service.impl;
 
 import ink.labrador.mmsmanager.domain.LoggedUser;
-import ink.labrador.mmsmanager.entity.User;
+import ink.labrador.mmsmanager.entity.SysUser;
 import ink.labrador.mmsmanager.integration.security.SecurityHolder;
-import ink.labrador.mmsmanager.mapper.UserMapper;
+import ink.labrador.mmsmanager.mapper.SysUserMapper;
 import ink.labrador.mmsmanager.properties.SecurityProperties;
-import ink.labrador.mmsmanager.service.UserService;
+import ink.labrador.mmsmanager.service.SysUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 @AllArgsConstructor
-public class UserServiceImpl extends BaseServiceImpl<User, UserMapper> implements UserService {
+public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> implements SysUserService {
     private final SecurityProperties securityProperties;
 
-    public LoggedUser login(User user) {
+    public LoggedUser login(SysUser user) {
         String uuidToken = UUID.randomUUID().toString();
         LoggedUser loggedUser = new LoggedUser();
         loggedUser.setUserId(user.getId());
