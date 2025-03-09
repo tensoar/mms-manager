@@ -5,6 +5,7 @@ import ink.labrador.mmsmanager.entity.SysUser;
 import ink.labrador.mmsmanager.integration.R;
 import ink.labrador.mmsmanager.integration.annotation.NotAuth;
 import ink.labrador.mmsmanager.service.SysUserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("sys_user")
 @AllArgsConstructor
+@Tag(name = "系统用户相关接口")
 public class SysUserController {
     private final SysUserService sysUserService;
 

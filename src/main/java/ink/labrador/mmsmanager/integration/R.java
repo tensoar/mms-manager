@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Schema(description = "返回结果")
-public class R <T> {
+public class R<T> {
     @Schema(
             description = "状态码",
             name = "code",

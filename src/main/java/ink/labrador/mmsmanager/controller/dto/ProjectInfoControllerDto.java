@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 public class ProjectInfoControllerDto {
 
@@ -25,11 +26,12 @@ public class ProjectInfoControllerDto {
         private String projectName;
 
         @Schema(description = "IPV4地址")
-        @Pattern(regexp = "^(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})$")
+        @Pattern(regexp = "^(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})$", message = "IP地址格式不正确")
         private String ip;
 
         @Schema(description = "端口")
-        @FormValueTransfer(transformer = StringToIntegerTransformer.class)
+        @FormValueTransfer(transformer = StringToIntegerTransformer.class, message = "端口号必须是数字")
+        @Range(min = 80, max = 65535, message = "端口号范围需在[80, 65535]")
         private Integer port;
 
         @Schema(description = "是否使用https")

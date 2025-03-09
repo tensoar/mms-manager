@@ -52,7 +52,7 @@ public abstract class BaseServiceImpl <E, M extends BaseMapper<E>> extends Servi
     public boolean update(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb) {
         return update(cb.apply(Wrappers.<E>lambdaQuery()));
     }
-    public boolean update(E e, Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb) {
+    public boolean update(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb, E e) {
         return update(e, cb.apply(Wrappers.<E>lambdaQuery()));
     }
 
