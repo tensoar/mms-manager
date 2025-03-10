@@ -5,6 +5,7 @@ import ink.labrador.mmsmanager.entity.SysUser;
 import ink.labrador.mmsmanager.integration.R;
 import ink.labrador.mmsmanager.integration.annotation.NotAuth;
 import ink.labrador.mmsmanager.service.SysUserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +21,8 @@ public class SysUserController {
 
     @NotAuth
     @PostMapping("login")
+    @Operation(description = "系统登录")
     public R login() {
-//        sysUserService.getOne(SysUser.builder().id(1L).build());
         sysUserService.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getId, 1L));
         return R.ok("login ...");
     }

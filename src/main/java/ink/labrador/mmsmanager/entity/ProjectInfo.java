@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @TableName("mms_project_info")
 @Schema(description = "项目信息")
@@ -20,4 +22,6 @@ public class ProjectInfo {
     private String ipv4;
     @Schema(description = "端口")
     private Integer port;
+    @Schema(description = "添加时间")
+    private LocalDateTime createTime;
 }

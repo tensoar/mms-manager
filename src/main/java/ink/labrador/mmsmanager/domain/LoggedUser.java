@@ -1,5 +1,6 @@
 package ink.labrador.mmsmanager.domain;
 
+import ink.labrador.mmsmanager.constant.UserConst;
 import lombok.Data;
 import lombok.ToString;
 
@@ -8,7 +9,7 @@ import lombok.ToString;
 public class LoggedUser {
     private Long userId;
     private String username;
-    private Integer type;
+    private UserConst.UserType type;
     private String tokenName;
     private String tokenValue;
 }

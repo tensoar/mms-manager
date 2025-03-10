@@ -1,6 +1,6 @@
 package ink.labrador.mmsmanager.integration.security;
 
-import ink.labrador.mmsmanager.constant.UserStatus;
+import ink.labrador.mmsmanager.constant.UserConst;
 import ink.labrador.mmsmanager.domain.LoggedUser;
 import ink.labrador.mmsmanager.entity.SysUser;
 import ink.labrador.mmsmanager.integration.annotation.NotAuth;
@@ -44,7 +44,7 @@ public class SecurityInterceptor implements AsyncHandlerInterceptor, Ordered {
         if (dbUser == null) {
             throw new BusinessException("用户不存在");
         }
-        if (!UserStatus.NORMAL.getValue().equals(dbUser.getStatus())) {
+        if (dbUser.getStatus() != UserConst.UserStatus.NORMAL) {
             throw new BusinessException("用户状态异常,请联系管理员");
         }
         return true;

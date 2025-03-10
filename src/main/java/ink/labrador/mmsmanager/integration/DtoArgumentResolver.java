@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ink.labrador.mmsmanager.integration.annotation.Dto;
 import ink.labrador.mmsmanager.integration.transfer.exception.FormValueTransformerException;
 import ink.labrador.mmsmanager.support.ObjectMapperSupport;
+import ink.labrador.mmsmanager.util.ReflectUtil;
 import ink.labrador.mmsmanager.util.StrUtil;
 import ink.labrador.mmsmanager.integration.annotation.NoValid;
 import ink.labrador.mmsmanager.integration.transfer.annotation.FormValueTransfer;
@@ -94,7 +95,11 @@ public class DtoArgumentResolver implements HandlerMethodArgumentResolver {
                 continue;
             }
             try {
-                Field field = paramCls.getDeclaredField(name);
+                Field field = ReflectUtil.getFiled(paramCls, name);
+                if (field == null) {
+                    logger.warn(String.format("Parameter %s was not resolved which value is %s ...", name, value));
+                    continue;
+                }
                 field.setAccessible(true);
                 Class<?> fieldType = field.getType();
                 if (fieldType.isEnum()) {
@@ -112,7 +117,7 @@ public class DtoArgumentResolver implements HandlerMethodArgumentResolver {
                 if (e instanceof FormValueTransformerException) {
                     throwTransformerException((FormValueTransformerException) e, null);
                 }
-                logger.warn(String.format("Parameter %s was not resolved which value is %s ...", name, value));
+//                logger.warn(String.format("Parameter %s was not resolved which value is %s ...", name, value));
             }
         }
         if (!paramCls.isAnnotationPresent(NoValid.class)) {

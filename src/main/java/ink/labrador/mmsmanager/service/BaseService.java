@@ -24,6 +24,7 @@ public interface BaseService<E, M extends BaseMapper<E>> extends IService<E> {
 //    boolean saveOrUpdate(E entity, E values);
     boolean remove(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
     boolean update(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
+    boolean exists(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb);
     boolean update(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb, E toUpdate);
     LambdaQueryWrapper<E> newWrapper();
 }
