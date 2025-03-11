@@ -6,10 +6,10 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class LoggedUser {
+public class LoggedSysUser {
     private Long userId;
     private String username;
     private UserConst.UserType type;
-    private String tokenName;
+    private String tokenHeaderName;
     private String tokenValue;
 }

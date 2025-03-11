@@ -1,4 +1,4 @@
-package ink.labrador.mmsmanager.integration;
+package ink.labrador.mmsmanager.integration.resolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -56,6 +56,10 @@ public class ProjectInfoControllerDto {
         @MinSize(value = 1, message = "删除项目不能为空")
         @NotNull(message = "删除项目不能为空")
         private Set<Long> ids;
+
+        @Schema(description = "是否删除关联用户,若是,项目下所有用户也会被删除")
+        @FormValueTransfer(transformer = AnyToBooleanTransformer.class)
+        private Boolean delUser;
     }
 
     @EqualsAndHashCode(callSuper = true)
@@ -69,5 +73,6 @@ public class ProjectInfoControllerDto {
         @Schema(description = "IPV4地址,可空,模糊查询")
         @Pattern(regexp = "^(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})$", message = "IP地址格式不正确")
         private String ip;
+
     }
 }

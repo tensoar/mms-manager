@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Data
 @TableName("mms_sys_user")
 @Schema(description = "系统用户")
-@Builder
 public class SysUser {
     @TableId
     private Long id;

@@ -6,12 +6,15 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ink.labrador.mmsmanager.controller.dto.ProjectInfoControllerDto;
 import ink.labrador.mmsmanager.entity.ProjectInfo;
+import ink.labrador.mmsmanager.entity.ProjectUser;
 import ink.labrador.mmsmanager.integration.R;
 import ink.labrador.mmsmanager.integration.annotation.Dto;
 import ink.labrador.mmsmanager.service.ProjectInfoService;
+import ink.labrador.mmsmanager.service.ProjectUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +26,7 @@ import java.util.Objects;
 @RequestMapping("project")
 public class ProjectInfoController {
     private final ProjectInfoService projectInfoService;
+    private final ProjectUserService projectUserService;
 
     @PostMapping("save")
     @Operation(summary = "添加或修改项目", description = "添加或修改项目,添加时id给空，修改时id给要修改的项目的id")
@@ -54,6 +58,9 @@ public class ProjectInfoController {
     @Operation(summary = "删除项目")
     @ResponseBody
     public R<String> deleteProject(@Dto ProjectInfoControllerDto.DeleteProjectDto dto) {
+        if (BooleanUtils.isTrue(dto.getDelUser())) {
+            projectUserService.remove(wrapper -> wrapper.in(ProjectUser::getProjectId, dto.getIds()));
+        }
         projectInfoService.removeByIds(dto.getIds());
         return R.ok("操作成功");
     }
@@ -63,15 +70,15 @@ public class ProjectInfoController {
     @ResponseBody
     public R<Page<ProjectInfo>> listProject(@Dto ProjectInfoControllerDto.ListProjectDto dto) {
         OrderItem orderItem = OrderItem.desc("create_time");
-        if (!StringUtils.hasLength(dto.getProjectName()) && !StringUtils.hasLength(dto.getIp())) {
-            return R.ok(projectInfoService.page(dto.mapPage(orderItem)));
-        }
+//        if (!StringUtils.hasLength(dto.getProjectName()) && !StringUtils.hasLength(dto.getIp())) {
+//            return R.ok(projectInfoService.page(dto.mapPage(orderItem)));
+//        }
         LambdaQueryWrapper<ProjectInfo> queryWrapper = Wrappers.lambdaQuery();
         if (StringUtils.hasLength(dto.getProjectName())) {
-            queryWrapper.like(ProjectInfo::getProjectName, '%' + dto.getProjectName() + "%");
+            queryWrapper.like(ProjectInfo::getProjectName, dto.getProjectName());
         }
         if (StringUtils.hasLength(dto.getIp())) {
-            queryWrapper.like(ProjectInfo::getIpv4, '%' + dto.getIp() + "%");
+            queryWrapper.like(ProjectInfo::getIpv4, dto.getIp());
         }
         return R.ok(projectInfoService.page(dto.mapPage(orderItem), queryWrapper));
     }

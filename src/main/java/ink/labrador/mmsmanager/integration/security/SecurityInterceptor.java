@@ -1,15 +1,17 @@
 package ink.labrador.mmsmanager.integration.security;
 
 import ink.labrador.mmsmanager.constant.UserConst;
-import ink.labrador.mmsmanager.domain.LoggedUser;
+import ink.labrador.mmsmanager.domain.LoggedSysUser;
 import ink.labrador.mmsmanager.entity.SysUser;
 import ink.labrador.mmsmanager.integration.annotation.NotAuth;
 import ink.labrador.mmsmanager.integration.exception.BusinessException;
 import ink.labrador.mmsmanager.mapper.SysUserMapper;
 import ink.labrador.mmsmanager.properties.SecurityProperties;
+import ink.labrador.mmsmanager.util.WebUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
@@ -25,18 +27,18 @@ public class SecurityInterceptor implements AsyncHandlerInterceptor, Ordered {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (!(handler instanceof HandlerMethod method)) {
+        if (!(handler instanceof HandlerMethod method) || !BooleanUtils.isTrue(securityProperties.getEnableToken())) {
             return true;
         }
         if (isMethodNoNeedAuth(method, request)) {
             return true;
         }
 
-        String token = getToken(request);
+        String token = WebUtil.getToken(request, securityProperties);
         if (token == null) {
             throw new BusinessException("未登录");
         }
-        LoggedUser user = SecurityHolder.get(token);
+        LoggedSysUser user = SecurityHolder.get(token);
         if (user == null) {
             throw new BusinessException("Token非法或认证过期");
         }
@@ -61,14 +63,6 @@ public class SecurityInterceptor implements AsyncHandlerInterceptor, Ordered {
             }
         }
         return false;
-    }
-
-    private String getToken(HttpServletRequest request) {
-        String token = request.getHeader(securityProperties.getTokenHeaderName());
-        if (token == null || token.length() < securityProperties.getTokenPrefix().length()) {
-            return null;
-        }
-        return token.substring(securityProperties.getTokenPrefix().length());
     }
 
     @Override
