@@ -48,7 +48,10 @@ public class SysUserController {
     @PostMapping("logout")
     @Operation(description = "退出系统登录")
     public R<String> logout(@Parameter(hidden = true) LoggedSysUser sysUser) {
-        SecurityHolder.remove(sysUser.getTokenValue());
+        String token = sysUser.getTokenValue();
+        if (token != null) {
+            SecurityHolder.remove(token);
+        }
         return R.ok("退出成功");
     }
 }

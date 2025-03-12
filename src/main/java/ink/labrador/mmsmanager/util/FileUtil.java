@@ -2,6 +2,7 @@ package ink.labrador.mmsmanager.util;
 
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -68,10 +69,14 @@ public class FileUtil {
 
     public static byte[] readAllBytesAndClose(InputStream stream) {
         try {
-            byte[] bytes = new byte[stream.available()];
-            stream.read(bytes);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = stream.read(buffer)) != -1) {
+                baos.write(buffer, 0, bytesRead);
+            }
             stream.close();
-            return bytes;
+            return baos.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
             return new byte[0];
