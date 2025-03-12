@@ -1,11 +1,12 @@
 package ink.labrador.mmsmanager.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import ink.labrador.mmsmanager.constant.UserConst;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Data;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -41,4 +42,8 @@ public class ProjectUser {
 
     @Schema(description = "更新时间")
     private LocalDateTime updateTime;
+
+    @Schema(description = "关联项目信息")
+    @TableField(exist = false)
+    private ProjectInfo projectInfo;
 }

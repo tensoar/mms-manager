@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ink.labrador.mmsmanager.mapper.ProjectUserMapper">
+
+    <select id="listJoinProject" resultType="ink.labrador.mmsmanager.entity.ProjectUser">
+        select * from mms_project_user pu
+            left join mms_project_info pi on pi.id = pu.project_id
+        <where>
+            <if test="user != null and user.name != null and user.name != ''">
+                and pu.name = #{user.name}
+            </if>
+            <if test="user != null and user.projectId != null and user.projectId > 0">
+                and pu.project_id = #{user.projectId}
+            </if>
+            <if test="user != null and user.status != null">
+                and pu.status = #{user.status}
+            </if>
+        </where>
+        order by pu.create_time desc
+    </select>
+</mapper>

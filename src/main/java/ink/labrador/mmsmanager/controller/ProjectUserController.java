@@ -1,6 +1,7 @@
 package ink.labrador.mmsmanager.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -88,18 +89,25 @@ public class ProjectUserController {
     @ResponseBody
     @Operation(summary = "查询项目用户")
     public R<Page<ProjectUser>> listUser(@Dto ProjectUserControllerDto.ListUserDto dto) {
-        LambdaQueryWrapper<ProjectUser> wrapper = Wrappers.lambdaQuery();
-        if (StringUtils.hasLength(dto.getUsername())) {
-            wrapper.like(ProjectUser::getName, dto.getUsername());
-        }
-        if (dto.getProjectId() != null && dto.getProjectId() > 0) {
-            wrapper.eq(ProjectUser::getProjectId, dto.getProjectId());
-        }
-        if (dto.getUserStatus() != null) {
-            wrapper.eq(ProjectUser::getStatus, dto.getUserStatus());
-        }
-        OrderItem orderItem = OrderItem.desc("create_time");
-        return R.ok(projectUserService.page(dto.mapPage(orderItem), wrapper));
+//        LambdaQueryWrapper<ProjectUser> wrapper = Wrappers
+//                .lambdaQuery();
+//        if (StringUtils.hasLength(dto.getUsername())) {
+//            wrapper.like(ProjectUser::getName, dto.getUsername());
+//        }
+//        if (dto.getProjectId() != null && dto.getProjectId() > 0) {
+//            wrapper.eq(ProjectUser::getProjectId, dto.getProjectId());
+//        }
+//        if (dto.getUserStatus() != null) {
+//            wrapper.eq(ProjectUser::getStatus, dto.getUserStatus());
+//        }
+//        OrderItem orderItem = OrderItem.desc("create_time");
+
+//        return R.ok(projectUserService.page(dto.mapPage(orderItem), wrapper));
+        ProjectUser u = new ProjectUser();
+        u.setName(dto.getUsername());
+        u.setProjectId(dto.getProjectId());
+        u.setStatus(dto.getUserStatus());
+        return R.ok(projectUserService.getBaseMapper().listJoinProject(dto.mapPage(), u));
     }
 
     @PostMapping("login")
