@@ -18,6 +18,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -81,5 +82,15 @@ public class ProjectInfoController {
             queryWrapper.like(ProjectInfo::getIpv4, dto.getIp());
         }
         return R.ok(projectInfoService.page(dto.mapPage(orderItem), queryWrapper));
+    }
+
+
+    @GetMapping("listOptions")
+    @ResponseBody
+    @Operation(summary = "查询所有项目的id及名称")
+    private R<List<ProjectInfo>> listOptions() {
+        return R.ok(projectInfoService.list(wrapper ->
+                wrapper.select(ProjectInfo::getId, ProjectInfo::getProjectName)
+        ));
     }
 }

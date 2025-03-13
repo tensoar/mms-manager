@@ -35,7 +35,7 @@ public class ProjectUserControllerDto {
         private Long projectId;
 
         @Schema(description = "RSA加密后用户密码")
-        @NotNull(message = "密码不能为空")
+//        @NotNull(message = "密码不能为空")
         @FormValueTransfer(transformer = RSADecodeUsePrivateKeyTransformer.class, formOnly = false)
         private String password;
 

@@ -68,9 +68,13 @@ public class ProjectUserController {
         user.setType(dto.getUserType());
         user.setStatus(dto.getUserStatus());
         user.setUpdateTime(LocalDateTime.now());
-        if (!StringUtils.hasLength(user.getPasswordDigest()) || !DigestSHA512.verify(dto.getPassword(), user.getPasswordSalt(), SaltMixType.CHAR_BY_CHAR, user.getPasswordDigest())) {
-            user.setPasswordSalt(UUID.randomUUID().toString());
-            user.setPasswordDigest(DigestSHA512.digestAsHex(dto.getPassword(), user.getPasswordSalt(), SaltMixType.CHAR_BY_CHAR));
+        if (StringUtils.hasText(dto.getPassword())) {
+            if (!DigestSHA512.verify(dto.getPassword(), user.getPasswordSalt(), SaltMixType.CHAR_BY_CHAR, user.getPasswordDigest())) {
+                user.setPasswordSalt(UUID.randomUUID().toString());
+                user.setPasswordDigest(DigestSHA512.digestAsHex(dto.getPassword(), user.getPasswordSalt(), SaltMixType.CHAR_BY_CHAR));
+            }
+        } else if (!StringUtils.hasLength(user.getPasswordDigest()) || dto.getUserId() == null) {
+            return R.fail("密码不能为空");
         }
         user.setUpdateTime(LocalDateTime.now());
         projectUserService.saveOrUpdate(user);
@@ -89,20 +93,7 @@ public class ProjectUserController {
     @ResponseBody
     @Operation(summary = "查询项目用户")
     public R<Page<ProjectUser>> listUser(@Dto ProjectUserControllerDto.ListUserDto dto) {
-//        LambdaQueryWrapper<ProjectUser> wrapper = Wrappers
-//                .lambdaQuery();
-//        if (StringUtils.hasLength(dto.getUsername())) {
-//            wrapper.like(ProjectUser::getName, dto.getUsername());
-//        }
-//        if (dto.getProjectId() != null && dto.getProjectId() > 0) {
-//            wrapper.eq(ProjectUser::getProjectId, dto.getProjectId());
-//        }
-//        if (dto.getUserStatus() != null) {
-//            wrapper.eq(ProjectUser::getStatus, dto.getUserStatus());
-//        }
-//        OrderItem orderItem = OrderItem.desc("create_time");
 
-//        return R.ok(projectUserService.page(dto.mapPage(orderItem), wrapper));
         ProjectUser u = new ProjectUser();
         u.setName(dto.getUsername());
         u.setProjectId(dto.getProjectId());
