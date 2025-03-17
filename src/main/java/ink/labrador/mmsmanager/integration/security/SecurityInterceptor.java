@@ -49,6 +49,7 @@ public class SecurityInterceptor implements AsyncHandlerInterceptor, Ordered {
         if (dbUser.getStatus() != UserConst.UserStatus.NORMAL) {
             throw new BusinessException("用户状态异常,请联系管理员");
         }
+        SecurityHolder.put(token, user);
         return true;
     }
 

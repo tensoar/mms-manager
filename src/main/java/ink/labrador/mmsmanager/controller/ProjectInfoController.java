@@ -18,6 +18,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,6 +47,7 @@ public class ProjectInfoController {
         }
         if (info == null) {
             info = new ProjectInfo();
+            info.setCreateTime(LocalDateTime.now());
         }
         info.setProjectName(dto.getProjectName());
         info.setUseHttps(dto.getUseHttps());

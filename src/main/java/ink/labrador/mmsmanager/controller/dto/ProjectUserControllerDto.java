@@ -88,12 +88,12 @@ public class ProjectUserControllerDto {
         @FormValueTransfer(transformer = RSADecodeUsePrivateKeyTransformer.class, formOnly = false)
         private String password;
 
-        @Schema(description = "验证码ID")
-        @NotBlank(message = "验证码不能为空")
-        private String captchaId;
-
-        @Schema(description = "验证码")
-        @NotBlank(message = "验证码不能为空")
-        private String captchaAnswer;
+//        @Schema(description = "验证码ID")
+//        @NotBlank(message = "验证码不能为空")
+//        private String captchaId;
+//
+//        @Schema(description = "验证码")
+//        @NotBlank(message = "验证码不能为空")
+//        private String captchaAnswer;
     }
 }

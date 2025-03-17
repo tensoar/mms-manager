@@ -67,7 +67,6 @@ public class ProjectUserController {
         user.setName(dto.getUsername());
         user.setType(dto.getUserType());
         user.setStatus(dto.getUserStatus());
-        user.setUpdateTime(LocalDateTime.now());
         if (StringUtils.hasText(dto.getPassword())) {
             if (!DigestSHA512.verify(dto.getPassword(), user.getPasswordSalt(), SaltMixType.CHAR_BY_CHAR, user.getPasswordDigest())) {
                 user.setPasswordSalt(UUID.randomUUID().toString());
@@ -86,7 +85,7 @@ public class ProjectUserController {
     @Operation(summary = "删除项目用户")
     public R<String> delUser(@Dto ProjectUserControllerDto.DelUser dto) {
         projectUserService.removeByIds(dto.getIds());
-        return R.fail("操作成功");
+        return R.ok("操作成功");
     }
 
     @GetMapping("list")
@@ -106,9 +105,9 @@ public class ProjectUserController {
     @Operation(summary = "项目用户登录")
     @NotAuth
     public R<LoggedProjectUser> login(@Dto ProjectUserControllerDto.Login dto) {
-        if (!captchaService.verify(dto.getCaptchaId(), dto.getCaptchaAnswer())) {
-            return R.fail("验证码错误或失效");
-        }
+//        if (!captchaService.verify(dto.getCaptchaId(), dto.getCaptchaAnswer())) {
+//            return R.fail("验证码错误或失效");
+//        }
         ProjectUser user = projectUserService.getOne(wrapper -> wrapper.eq(ProjectUser::getName, dto.getUsername()));
         if (user == null) {
             return R.fail("用户名或密码错误");
