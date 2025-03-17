@@ -118,7 +118,7 @@ public class ProjectUserController {
         if (user.getProjectId() == null) {
             return R.fail("未关联项目或项目被删除,请联系管理员");
         }
-        captchaService.remove(dto.getCaptchaId());
+//        captchaService.remove(dto.getCaptchaId());
         ProjectInfo projectInfo = projectInfoService.getById(user.getProjectId());
         return R.ok(LoggedProjectUser.of(user, projectInfo));
     }
