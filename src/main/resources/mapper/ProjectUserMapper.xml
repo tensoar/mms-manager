@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ink.labrador.mmsmanager.mapper.ProjectUserMapper">
+    <resultMap id="UserJoinProject" type="ink.labrador.mmsmanager.entity.ProjectUser">
+        <id property="id" column="id"/>
+        <id property="name" column="name" />
+        <id property="status" column="status" />
+        <id property="projectId" column="project_id" />
+        <id property="passwordDigest" column="password_digest" />
+        <id property="passwordSalt" column="password_salt" />
+        <id property="type" column="type" />
+        <id property="createTime" column="create_time" />
+        <id property="updateTime" column="update_time" />
+        <association property="projectInfo" javaType="ink.labrador.mmsmanager.entity.ProjectInfo">
+            <id property="id" column="id" />
+            <id property="projectName" column="project_name" />
+            <id property="ipv4" column="ipv4" />
+            <id property="port" column="port" />
+            <id property="useHttps" column="use_https" />
+            <id property="createTime" column="create_time" />
+        </association>
+    </resultMap>
+
+    <select id="listJoinProject" resultMap="UserJoinProject">
+        select * from mms_project_user pu
+            left join mms_project_info pi on pi.id = pu.project_id
+        <where>
+            <if test="user != null and user.name != null and user.name != ''">
+                and pu.name = #{user.name}
+            </if>
+            <if test="user != null and user.projectId != null and user.projectId > 0">
+                and pu.project_id = #{user.projectId}
+            </if>
+            <if test="user != null and user.status != null">
+                and pu.status = #{user.status}
+            </if>
+        </where>
+        order by pu.create_time desc
+    </select>
+</mapper>

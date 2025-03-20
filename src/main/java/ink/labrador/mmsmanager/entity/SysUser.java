@@ -2,6 +2,7 @@ package ink.labrador.mmsmanager.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import ink.labrador.mmsmanager.constant.UserConst;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,6 @@ import java.time.LocalDateTime;
 @Data
 @TableName("mms_sys_user")
 @Schema(description = "系统用户")
-@Builder
 public class SysUser {
     @TableId
     private Long id;
@@ -26,10 +26,10 @@ public class SysUser {
     private String passwordSalt;
 
     @Schema(description = "用户类型")
-    private Integer type;
+    private UserConst.UserType type;
 
     @Schema(description = "用户状态")
-    private Integer status;
+    private UserConst.UserStatus status;
 
     @Schema(description = "创建时间")
     private LocalDateTime createTime;

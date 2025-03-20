@@ -56,6 +56,10 @@ public abstract class BaseServiceImpl <E, M extends BaseMapper<E>> extends Servi
         return update(e, cb.apply(Wrappers.<E>lambdaQuery()));
     }
 
+    public boolean exists(Function<LambdaQueryWrapper<E>, LambdaQueryWrapper<E>> cb) {
+        return exists(cb.apply(Wrappers.<E>lambdaQuery()));
+    }
+
     public LambdaQueryWrapper<E> newWrapper() {
         return Wrappers.<E>lambdaQuery();
     }

@@ -7,7 +7,7 @@ import ink.labrador.mmsmanager.util.StrUtil;
 public class StringToLongTransformer implements IFormValueTransformer<String, Long> {
     @Override
     public Long transform(String value) throws FormValueTransformerException {
-        if (value == null || StrUtil.hasLength(value.trim())) {
+        if (value == null || !StrUtil.hasLength(value.trim())) {
             return null;
         }
         try {

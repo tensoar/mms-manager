@@ -13,6 +13,8 @@ import java.util.List;
 public class SecurityProperties {
     private Integer tokenExpireTimeInMinute = 1440;
     private List<String> ignoredPaths = Collections.emptyList();
-    private String tokenHeaderName = "X-ACCESS-TOKEN";
+    private String tokenHeaderName = "X-Access-Token";
     private String tokenPrefix = "";
+    private Boolean enableToken = true;
+    private String adminDefaultPass = "dianan@123";
 }
