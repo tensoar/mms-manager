@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+package/**/*.jar
+package/**/*.tar.gz
+package/**/*.zip
+
 ### STS ###
 .apt_generated
 .classpath

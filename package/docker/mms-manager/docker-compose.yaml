@@ -1,0 +1,18 @@
+services:
+  mms-manager:
+    container_name: mms-manager
+    network_mode: bridge
+    restart: always
+    image: openjdk:17
+    privileged: true
+    entrypoint: "java -jar /program/mms-manager.jar"
+    ports:
+      - "21010:21010"
+    environment:
+      - spring.config.location=/program/application.yml
+      - PORT=21010
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./program:/program
+      - ./logs:/program/logs
+      - /etc/localtime:/etc/localtime:ro

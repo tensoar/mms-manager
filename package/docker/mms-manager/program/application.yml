@@ -1,0 +1,66 @@
+server:
+  port: ${PORT:21010}
+
+spring:
+  application:
+    name: mms-manager
+  datasource:
+    url: jdbc:mysql://${MYSQL_IP:82.157.252.31}:${MYSQL_PORT:3306}/mms-manager?useSSL=false&autoReconnect=true&characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+    hikari:
+      minimum-idle: 2
+      auto-commit: true
+      connection-test-query: SELECT 1
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+mms:
+  security:
+    enable-token: false
+    ignored-paths:
+      - /v3/api-docs/**
+      - /doc.html
+  crypto:
+    rsa:
+      private-key-file: mms-manager-private.der
+      public-key-file: mms-manager-public.pem
+  captcha:
+    content-type: expression # 验证码类型
+    size: 4 # 字符数量
+    expire-time-in-minute: 10 # 过期时间
+    font-size: 26 # 字体大小
+    ttf-font-path: "consolab.ttf" # 字体路径
+    image-width: 98 # 图片宽度
+    image-height: 48 # 图片高度
+    background-hex-color: b0aa93 # 背景颜色
+    noise-number: 6 # 干扰线数量
+
+# springdoc-openapi????
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: ink.labrador.mmsmanager.controller
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+  documents:
+    - group: default
+      name: "全局说明"
+      locations: classpath:additional_doc/*
