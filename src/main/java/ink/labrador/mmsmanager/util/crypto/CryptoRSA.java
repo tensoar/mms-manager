@@ -26,7 +26,7 @@ import java.util.Base64;
 @Order(-1)
 public class CryptoRSA {
     private final Logger logger = LoggerFactory.getLogger(CryptoRSA.class);
-    private final String TRANSFORM = "RSA/ECB/PKCS1Padding";
+    private final String TRANSFORM = "RSA/ECB/OAEPPadding";
     private final String ALGORITHM = "RSA";
     private PrivateKey privateKey = null;
     private PublicKey publicKey = null;
